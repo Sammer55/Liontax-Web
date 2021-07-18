@@ -52,7 +52,7 @@ export default function Edit(props) {
                                 .then(
                                     swal({
                                         title: "Alterar dados de cliente",
-                                        text: `O usuário ${values.name} foi editado com sucesso.`,
+                                        text: `O usuário ${props.location.state.obj.name} foi editado para ${values.name} com sucesso.`,
                                         icon: "success",
                                     })
                                 )
