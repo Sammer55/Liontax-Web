@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledTitle = styled.h1`
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+const StyledTitle = styled.span`
+    color: #000;
+    font-size: 30px;
+    font-weight: bold;
 `
 
 export default function Title({ text }) {
