@@ -45,14 +45,18 @@ export default function Search() {
 
     const deleteClient = async (obj) => {
         try {
-            const data = await api.delete("/client/" + (obj))
-            setClient(data)
-            swal({
-                title: "title",
-                text: "text",
-                icon: "warning",
-                dangerMode: true,
-            })
+            await api.delete("/client/" + (obj))
+                .then(() => {
+                    getClients();
+                    swal({
+                        title: "title",
+                        text: "text",
+                        icon: "warning",
+                        dangerMode: true,
+                    })
+                }
+                )
+
         } catch (error) { console.log(error) }
     };
 
@@ -85,9 +89,9 @@ export default function Search() {
                                         <td style={{ fontSize: 20 }} >{obj.email}</td>
                                         <td style={{ fontSize: 20 }} >{obj.tel}</td>
                                         <td>
-                                            <Button color="danger" onClick={() => deleteClient(obj.id)}> <FaTrashAlt/> </Button>
-                                            <Link to={{pathname: "/edit", state: { obj }}} style={{ textDecoration: 'none' }}>
-                                                <Button style={{ marginLeft: 10 }} color="primary"> <MdModeEdit/> </Button>
+                                            <Button color="danger" onClick={() => deleteClient(obj.id)}> <FaTrashAlt /> </Button>
+                                            <Link to={{ pathname: "/edit", state: { obj } }} style={{ textDecoration: 'none' }}>
+                                                <Button style={{ marginLeft: 10 }} color="primary"> <MdModeEdit /> </Button>
                                             </Link>
                                         </td>
                                     </tr>
