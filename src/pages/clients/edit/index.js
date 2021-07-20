@@ -192,7 +192,7 @@ export default function Edit(props) {
                                 <Col md="12" className="mt-2">
                                     <ButtonsContainer>
                                         <Button style={{ marginRight: 5 }} type="submit" color="danger" onClick={deleteClient}>Excluir</Button>
-                                        <Button type="submit" color="dark" onClick={props.handleSubmit}>Confirmar edição</Button>
+                                        <Button type="submit" color="dark" onClick={props.handleSubmit}>Editar</Button>
                                     </ButtonsContainer>
                                 </Col>
                             </Row>
