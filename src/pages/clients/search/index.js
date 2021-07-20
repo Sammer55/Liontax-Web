@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import api from "../../../services/api";
-import { Row, Col, Table, Button } from "reactstrap";
+import { Row, Button } from "reactstrap";
 import Title from "../../../components/Title";
-import { Link } from "react-router-dom";
-import { FaTrashAlt } from 'react-icons/fa';
-import { MdModeEdit } from 'react-icons/md';
-import swal from 'sweetalert'
+import { Link, useHistory } from "react-router-dom";
+import MUIDataTable from "mui-datatables";
 
 const Content = styled.div`
-    border: 1px solid #C5C5C5;
-    background-color: #FFF;
     width: 80%;
     padding: 20px;
     border-radius: 10px;
@@ -22,19 +18,23 @@ const CardContainer = styled.div`
     justify-content: center;
 `
 
-const ButtonContainer = styled.div`
+const TitleContainer = styled.div`
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    border-radius: 10px;
+    flex-direction: row;
+    margin-bottom: 10px;
 `
 
 export default function Search() {
+
+    const history = useHistory();
 
     const [client, setClient] = useState([]);
 
     const getClients = async () => {
         try {
             const data = await api.get("/client")
-            console.log(data.data);
             setClient(data.data);
         } catch (e) { console.log(e) }
     };
@@ -43,71 +43,51 @@ export default function Search() {
         getClients();
     }, [])
 
-    const deleteClient = async (obj) => {
-        try {
-            await api.delete("/client/" + (obj))
-                .then(() => {
-                    getClients();
-                    swal({
-                        title: "title",
-                        text: "text",
-                        icon: "warning",
-                        dangerMode: true,
-                    })
-                }
-                )
+    // const columns = ["ID", "Nome", "CPF", "Email", "Telefone", "Ações"];
+    const columns = [
+        { name: "id", label: "ID", options: { filter: true, sort: true } },
+        { name: "name", label: "Nome", options: { filter: true, sort: false } },
+        { name: "cpf", label: "CPF", options: { filter: true, sort: false } },
+        { name: "email", label: "Email", options: { filter: true, sort: false } },
+        { name: "tel", label: "Telefone", options: { filter: true, sort: false } },
+    ];
 
-        } catch (error) { console.log(error) }
-    };
+    const options = {
+        filterType: "dropdown",
+        filter: true,
+        download: false,
+        print: false,
+        selectableRows: "single",
+        responsive: "simple",
+        selectableRowsHideCheckboxes: true,
+        selectableRowsOnClick: true,
+        onRowSelectionChange: (rowSelected) => {
+            const id = rowSelected.map(d => client[d.dataIndex].id);
+            const name = rowSelected.map(d => client[d.dataIndex].name);
+            const cpf = rowSelected.map(d => client[d.dataIndex].cpf);
+            const email = rowSelected.map(d => client[d.dataIndex].email);
+            const tel = rowSelected.map(d => client[d.dataIndex].tel);
+            history.push({ pathname: `/edit/${id}`, state: {id, name, cpf, email, tel}})
+        }
+    }
 
     return (
         <CardContainer >
             <Content >
                 <Row >
-                    <Col md="12" >
-                        <Title text="Lista de clientes" />
-                    </Col>
+                    <TitleContainer>
+                        <Title text="Clientes" />
+                        <Link to="/create" style={{ textDecoration: "none" }}>
+                            <Button type="submit" color="success">Adicionar</Button>
+                        </Link>
+                    </TitleContainer>
 
-                    <Table className="mt-3 border border-muted">
-                        <thead>
-                            <tr>
-                                <th style={{ fontSize: 20 }} >ID</th>
-                                <th style={{ fontSize: 20 }} >Nome</th>
-                                <th style={{ fontSize: 20 }} >CPF</th>
-                                <th style={{ fontSize: 20 }} >Email</th>
-                                <th style={{ fontSize: 20 }} >Telefone</th>
-                                <th style={{ fontSize: 20 }} >Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {client.map(obj => {
-                                return (
-                                    <tr>
-                                        <th style={{ fontSize: 20 }} scope="row">{obj.id}</th>
-                                        <td style={{ fontSize: 20 }} >{obj.name}</td>
-                                        <td style={{ fontSize: 20 }} >{obj.cpf}</td>
-                                        <td style={{ fontSize: 20 }} >{obj.email}</td>
-                                        <td style={{ fontSize: 20 }} >{obj.tel}</td>
-                                        <td>
-                                            <Button color="danger" onClick={() => deleteClient(obj.id)}> <FaTrashAlt /> </Button>
-                                            <Link to={{ pathname: "/edit", state: { obj } }} style={{ textDecoration: 'none' }}>
-                                                <Button style={{ marginLeft: 10 }} color="primary"> <MdModeEdit /> </Button>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-
-                        </tbody>
-                    </Table>
-
-                    <Col md="12">
-                        <ButtonContainer>
-                            <Link to="/create" style={{ textDecoration: 'none' }}>
-                                <Button color="success">Adicionar</Button>
-                            </Link>
-                        </ButtonContainer>
-                    </Col>
+                    <MUIDataTable
+                        title="Selecione um cliente para edita-lo."
+                        data={client}
+                        columns={columns}
+                        options={options}
+                    />
                 </Row>
             </Content>
         </CardContainer>
