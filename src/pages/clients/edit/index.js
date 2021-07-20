@@ -68,8 +68,8 @@ export default function Edit(props) {
         cpf: yup
             .string()
             .required("Insira seu CPF.")
-            .min(14, "Insira seu CPF.")
-            .max(14, "Insira seu CPF."),
+            .min(14, "Confirme seu CPF.")
+            .max(14, "Confirme seu CPF."),
         email: yup
             .string()
             .required("Insira seu e-mail.")
@@ -77,7 +77,7 @@ export default function Edit(props) {
         tel: yup
             .string()
             .required("Insira seu telefone.")
-            .matches(/\+55 \(\d{2}\)\s\d{4,5}\-\d{4}/, "Insira seu telefone."),
+            .matches(/\+55 \(\d{2}\)\s\d{4,5}\-\d{4}/, "Confirme seu telefone."),
     })
 
     const [formatedCpf, setFormatedCpf] = useState();
