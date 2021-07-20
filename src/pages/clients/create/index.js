@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Row, Col, Input, FormGroup, Label, Button } from "reactstrap";
 import { Formik } from "formik";
-import * as yup from 'yup';
+import * as yup from "yup";
 import api from "../../../services/api";
-import swal from 'sweetalert';
-import { formatTel } from '../../../components/TextFormat/formatTel';
-import { formatCpf } from '../../../components/TextFormat/formatCpf';
-import InputMask from 'react-input-mask';
-import Title from '../../../components/Title';
-import Subtitle from '../../../components/Subtitle';
-import { Link } from 'react-router-dom';
+import swal from "sweetalert";
+import { formatTel } from "../../../components/TextFormat/formatTel";
+import { formatCpf } from "../../../components/TextFormat/formatCpf";
+import InputMask from "react-input-mask";
+import Title from "../../../components/Title";
+import Subtitle from "../../../components/Subtitle";
+import { Link } from "react-router-dom";
 
 const Content = styled.div`
     border: 1px solid #C5C5C5;
@@ -68,17 +68,20 @@ export default function Create() {
     const ReviewSchema = yup.object({
         name: yup
             .string()
-            .required('Insira seu nome para continuar.'),
+            .required("Insira seu nome."),
         cpf: yup
             .string()
-            .required('Insira seu CPF.'),
+            .required("Insira seu CPF.")
+            .min(14, "Insira seu CPF.")
+            .max(14, "Insira seu CPF."),
         email: yup
             .string()
-            .required('Insira seu e-mail.')
-            .email('Insira seu e-mail.'),
+            .required("Insira seu e-mail.")
+            .email("Insira seu e-mail."),
         tel: yup
             .string()
-            .required('Insira seu telefone.')
+            .required("Insira seu telefone.")
+            .matches(/\+55 \(\d{2}\)\s\d{4,5}\-\d{4}/, "Insira seu telefone."),
     })
 
     const [cpf, setFormatedCpf] = useState();
@@ -90,10 +93,10 @@ export default function Create() {
                 <Row>
                     <Col md="12" xs="12" >
                         <TitleContainer>
-                                <Title text="Cadastro" />
-                                <Link to="/" style={{ textDecoration: 'none' }}>
-                                    <Button style={{ marginRight: 5 }} type="submit" color="primary">Clientes</Button>
-                                </Link>
+                            <Title text="Cadastro" />
+                            <Link to="/" style={{ textDecoration: "none" }}>
+                                <Button type="submit" color="success">Clientes</Button>
+                            </Link>
                         </TitleContainer>
                     </Col>
 
@@ -120,11 +123,10 @@ export default function Create() {
                                     resetForm({ values: initialValues })
                                     swal({
                                         title: "Cadastro de cliente",
-                                        text: `O usuário ${values.name} foi cadastrado com sucesso`,
+                                        text: `O usuário ${values.name} foi cadastrado com sucesso.`,
                                         icon: "success",
                                     })
                                 }
-
                                 )
                                 .catch((error) => console.log(error))
                         }}
@@ -153,7 +155,7 @@ export default function Create() {
                                 <Col md="6" className="mt-2">
                                     <FormGroup>
                                         <Label for="cpf">CPF</Label>
-                                        <InputMask mask="999.999.999-99" value={props.values.cpf} onChange={props.handleChange('cpf')}>
+                                        <InputMask mask="999.999.999-99" value={props.values.cpf} onChange={props.handleChange("cpf")}>
                                             {() => <Input required placeholder="000.000.000-00" />}
                                         </InputMask>
                                     </FormGroup>
@@ -169,7 +171,7 @@ export default function Create() {
                                 <Col md="6" className="mt-2">
                                     <FormGroup>
                                         <Label for="tel">Telefone</Label>
-                                        <InputMask mask={("(99) 99999-9999" || "(99) 99999-9999")} value={props.values.tel} onChange={props.handleChange('tel')}>
+                                        <InputMask mask={("+55 \\(99) 99999-9999" || "(99) 99999-9999")} value={props.values.tel} onChange={props.handleChange("tel")}>
                                             {() => <Input required placeholder="(00) 00000-0000" />}
                                         </InputMask>
                                     </FormGroup>
