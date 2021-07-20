@@ -54,4 +54,5 @@ Após a instalação faça o clone do repositório na sua máquina.
 4. `yarn install`
 5. `yarn start`
 
-O site estará funcionando com a ausência dos dados retornados da API. Para a execução dela acesse o link abaixo 
+O site estará funcionando com a ausência dos dados retornados da API. Para a execução dela acesse o link abaixo:
+https://github.com/Sammer55/Liontax-api/
