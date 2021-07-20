@@ -87,7 +87,7 @@ export default function Edit(props) {
         await api.delete("/client/" + id).then(() => {
             swal({
                 title: "Aviso de exclusão!",
-                text: `O usuário selecionado foi excluído.`,
+                text: `O cliente selecionado foi excluído.`,
                 icon: "warning",
                 dangerMode: true,
             })
@@ -136,7 +136,7 @@ export default function Edit(props) {
                                 .then(
                                     swal({
                                         title: "Edição de cliente",
-                                        text: `O usuário foi editado com sucesso.`,
+                                        text: `O cliente foi editado com sucesso.`,
                                         icon: "success",
                                     })
                                 )

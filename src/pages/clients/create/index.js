@@ -123,7 +123,7 @@ export default function Create() {
                                     resetForm({ values: initialValues })
                                     swal({
                                         title: "Cadastro de cliente",
-                                        text: `O usuário ${values.name} foi cadastrado com sucesso.`,
+                                        text: `O cliente ${values.name} foi cadastrado com sucesso.`,
                                         icon: "success",
                                     })
                                 }
