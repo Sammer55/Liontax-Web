@@ -5,7 +5,7 @@ import Create from "./pages/clients/create";
 import Search from "./pages/clients/search";
 import Edit from "./pages/clients/edit";
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
